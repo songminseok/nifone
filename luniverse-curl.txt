@@ -1,0 +1,49 @@
+curl -X POST 'https://beta-api.luniverse.io/tx/v1.0/transactions/PurchaseNiPhone' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json' \
+    --data '{
+           "inputs": {
+               "receiverAddress": "0xa85937d6a4dde87191ad2c0355827f3a86226e40",
+               "valueAmount": "1000000000000000000"
+           }
+       }'
+
+curl -X GET 'https://beta-api.luniverse.io/tx/v1.0/wallets/bridge' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json' \
+    --data '{
+           "walletType": "LUNIVERSE",
+           "userKey": 1
+       }'
+
+curl -X POST 'https://beta-api.luniverse.io/tx/v1.0/wallets' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json' \
+    --data '{
+           "walletType": "LUNIVERSE",
+           "userKey": 1
+       }'
+
+// userKey1 인 사용자
+curl -X GET 'https://beta-api.luniverse.io/tx/v1.0/wallets/0xa85937d6a4dde87191ad2c0355827f3a86226e40/NP/NFP/balance' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json'
+
+// NeFone 서비스 제공자 REOA
+curl -X GET 'https://beta-api.luniverse.io/tx/v1.0/wallets/0x5d0a765c918f6d3dab47860e11e2a2dc8d01a61c/NP/NFP/balance' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json'
+
+curl -X POST 'https://beta-api.luniverse.io/tx/v1.0/transactions/Redeem' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json' \
+    --data '{
+           "from": "0xa85937d6a4dde87191ad2c0355827f3a86226e40",
+           "inputs": {
+               "valueAmount": "1000000000000000000"
+           }
+       }'
+
+curl -X GET 'https://beta-api.luniverse.io/tx/v1.0/receipts/' \
+    --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
+    --header 'Content-Type: application/json' 
