@@ -42,7 +42,7 @@ const Navbar = ({ auth, logoutUser }) => {
               fontFamily: 'monospace'
             }}
             className={classnames('brand-logo', auth.isAuthenticated ? 'left' : 'center')}>
-            <i className='material-icons'>code</i>
+            <i className='large material-icons'>smartphone</i>
             NIFONE
           </Link>
           { menus }
