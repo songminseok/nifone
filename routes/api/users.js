@@ -3,6 +3,8 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const keys = require('../../config/keys')
+const uuidv1 = require('uuid/v1')
+const axios = require('axios')
 
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
@@ -39,12 +41,31 @@ router.post('/register', (req, res) => {
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) throw err
         newUser.password = hash
-        newUser.save()
-          .then(
-            user => res.json(user)
-          ).catch(
-            err => console.log(err)
-          )
+        // Generate unique userKey using uuid
+        newUser.userKey = uuidv1()
+        axios.post('/wallets', {
+          'walletType': 'LUNIVERSE',
+          'userKey': newUser.userKey
+        }).then(
+          (response) => {
+            console.log('api/register--------', response.data)
+            newUser.wallet = response.data.data.address
+            newUser.save()
+              .then(
+                user => res.json(user)
+              ).catch(
+                err => {
+                  res.status(500).json({ server: 'Internal Account DB Error' })
+                  console.log(err)
+                }
+              )
+          }
+        ).catch(
+          (error) => {
+            res.status(500).json({ server: 'Internal Server Error: Wallet' })
+            console.log(error)
+          }
+        )
       })
     })
   })
@@ -80,9 +101,10 @@ router.post('/login', (req, res) => {
             // Create JWT Payload
             const payload = {
               id: user.id,
-              name: user.name
+              name: user.name,
+              wallet: user.wallet
             }
-
+            console.log('/login ---', payload)
             // Sign token
             jwt.sign(
               payload,

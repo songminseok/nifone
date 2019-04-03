@@ -2,8 +2,15 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const axios = require('axios')
 
 const users = require('./routes/api/users')
+const luniverseConfig = require('./config/luniverse')
+
+// Global axios defaults
+axios.defaults.baseURL = luniverseConfig.URI
+axios.defaults.headers.common['Authorization'] = luniverseConfig.Authorization
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 const app = express()
 

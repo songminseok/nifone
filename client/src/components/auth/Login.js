@@ -57,6 +57,7 @@ const Login = (props) => {
                 onChange={onChange}
                 value={user.email}
                 error={errors.email}
+                autoComplete='off'
                 id='email'
                 type='email' />
               <label htmlFor='email'>Email</label>
@@ -71,6 +72,7 @@ const Login = (props) => {
                 onChange={onChange}
                 value={user.password}
                 error={errors.password}
+                autoComplete='off'
                 id='password'
                 type='password' />
               <label htmlFor='password'>Password</label>

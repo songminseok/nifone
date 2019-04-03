@@ -59,6 +59,7 @@ const Register = (props) => {
                 onChange={onChange}
                 value={newUser.name}
                 error={errors.name}
+                autoComplete='off'
                 id='name'
                 type='text' />
               <label htmlFor='name'>Name</label>
@@ -70,6 +71,7 @@ const Register = (props) => {
                 onChange={onChange}
                 value={newUser.email}
                 error={errors.email}
+                autoComplete='off'
                 id='email'
                 type='email' />
               <label htmlFor='email'>Email</label>
