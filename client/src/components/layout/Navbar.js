@@ -17,7 +17,9 @@ const Navbar = ({ auth, logoutUser }) => {
       <ul className='right'>
         <li key={2}>
           <NavLink to='/dashboard/mypage'>
-            <span className='new badge black' data-badge-caption=''>{ auth.user.name}</span>
+            <span className='new badge black' data-badge-caption=''>
+              { auth.user.name}
+            </span>
           </NavLink>
         </li>
         <li key={1}>

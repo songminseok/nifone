@@ -59,24 +59,24 @@ router.post('/register', async (req, res) => {
           newUser.wallet = '0x5d0a765c918f6d3dab47860e11e2a2dc8d01a61c'
         } else {
           try {
-            const response = axios.post('/wallets', {
+            const response = await axios.post('/wallets', {
               'walletType': 'LUNIVERSE',
               'userKey': newUser.userKey
             })
             newUser.wallet = response.data.data.address
           } catch (error) {
-            res.status(500).json({ server: 'Internal Server Error: Wallet' })
             console.log(error)
+            return res.status(500).json({ server: 'Internal Server Error: Wallet' })
           }
         }
 
         // Save new User
         try {
           await newUser.save()
-          res.json(user)
+          return res.json(user)
         } catch (error) {
-          res.status(500).json({ server: 'Internal Account DB Error' })
           console.log(error)
+          return res.status(500).json({ server: 'Internal Account DB Error' })
         }
       })
     })
