@@ -15,13 +15,23 @@ const User = require('../../models/User')
 // @desc Register user
 // @access Public
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   // Form validation
   const { errors, isValid } = validateRegisterInput(req.body)
 
   // Check validation
   if (!isValid) {
     return res.status(400).json(errors)
+  }
+
+  // Check for admin is already created
+  if (req.body.role === 'admin') {
+    const admin = await User.findOne({ role: 'admin' })
+    if (admin) {
+      return res.status(400).json({ role: `Admin(${admin.email}) is already created!!!` })
+    }
+  } else if (req.body.role !== 'user') {
+    res.status(400).json({ role: 'Unkown role (user or admin)' })
   }
 
   User.findOne({ email: req.body.email }).then(user => {
@@ -32,40 +42,42 @@ router.post('/register', (req, res) => {
     const newUser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      role: req.body.role
     })
 
     // Hash password before saving in database
     bcrypt.genSalt(10, (err, salt) => {
       if (err) throw err
-      bcrypt.hash(newUser.password, salt, (err, hash) => {
+      bcrypt.hash(newUser.password, salt, async (err, hash) => {
         if (err) throw err
         newUser.password = hash
         // Generate unique userKey using uuid
         newUser.userKey = uuidv1()
-        axios.post('/wallets', {
-          'walletType': 'LUNIVERSE',
-          'userKey': newUser.userKey
-        }).then(
-          (response) => {
-            console.log('api/register--------', response.data)
+        // If the user is admin, no need to request wallet address
+        if (newUser.role === 'admin') {
+          newUser.wallet = '0x5d0a765c918f6d3dab47860e11e2a2dc8d01a61c'
+        } else {
+          try {
+            const response = axios.post('/wallets', {
+              'walletType': 'LUNIVERSE',
+              'userKey': newUser.userKey
+            })
             newUser.wallet = response.data.data.address
-            newUser.save()
-              .then(
-                user => res.json(user)
-              ).catch(
-                err => {
-                  res.status(500).json({ server: 'Internal Account DB Error' })
-                  console.log(err)
-                }
-              )
-          }
-        ).catch(
-          (error) => {
+          } catch (error) {
             res.status(500).json({ server: 'Internal Server Error: Wallet' })
             console.log(error)
           }
-        )
+        }
+
+        // Save new User
+        try {
+          await newUser.save()
+          res.json(user)
+        } catch (error) {
+          res.status(500).json({ server: 'Internal Account DB Error' })
+          console.log(error)
+        }
       })
     })
   })
@@ -102,7 +114,8 @@ router.post('/login', (req, res) => {
             const payload = {
               id: user.id,
               name: user.name,
-              wallet: user.wallet
+              wallet: user.wallet,
+              role: user.role
             }
             console.log('/login ---', payload)
             // Sign token

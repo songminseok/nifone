@@ -10,7 +10,8 @@ const Register = (props) => {
     name: '',
     email: '',
     password: '',
-    password2: ''
+    password2: '',
+    role: 'user'
   })
   const [errors, setErrors] = useState({})
 
@@ -98,6 +99,17 @@ const Register = (props) => {
                 type='password' />
               <label htmlFor='password2'>Confirm Password</label>
               <span className='red-text'>{errors.password2}</span>
+            </div>
+            <div className='input-field col s12'>
+              <input
+                className={classnames('', { invalid: errors.role })}
+                onChange={onChange}
+                value={newUser.role}
+                error={errors.role}
+                id='role'
+                type='text' />
+              <label htmlFor='role'>Role</label>
+              <span className='red-text'>{errors.role}</span>
             </div>
             <div className='col s12' style={{ paddingLeft: '11.250px' }}>
               <button

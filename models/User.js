@@ -19,6 +19,10 @@ const UserSchema = new Schema({
     type: String,
     default: 'userKey'
   },
+  role: {
+    type: String,
+    default: 'user' // user, admin
+  },
   wallet: {
     type: String,
     default: 'address'
