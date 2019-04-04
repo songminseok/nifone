@@ -33,7 +33,7 @@ const Navbar = ({ auth, logoutUser }) => {
   }
 
   return (
-    <div className='navbar-fixed'>
+    <div style={{ marginBottom: '2rem' }} className='navbar-fixed'>
       <nav className='z-depth-0'>
         <div className='nav-wrapper cyan'>
           <Link
