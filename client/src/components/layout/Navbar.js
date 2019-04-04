@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { logoutUser } from '../../actions/authActions'
 
 const Navbar = ({ auth, logoutUser }) => {
@@ -16,9 +16,9 @@ const Navbar = ({ auth, logoutUser }) => {
     menus = (
       <ul className='right'>
         <li key={2}>
-          <a href='#!'>
+          <NavLink to='/dashboard/mypage'>
             <span className='new badge black' data-badge-caption=''>{ auth.user.name}</span>
-          </a>
+          </NavLink>
         </li>
         <li key={1}>
           <a
