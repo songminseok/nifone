@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 import Sell from '../sell/Sell'
 import Inspect from '../inspect/Inspect'
-import MyPage from './MyPage'
+import MyPage from '../mypage/MyPage'
 
 const Dashboard = ({ auth, match }) => {
   const Main =

@@ -5,7 +5,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  res: {},
+  fones: [],
   pending: false
 }
 
@@ -15,10 +15,11 @@ export default (state = initialState, action) => {
       return { ...state, pending: true }
     case DATA_FETCH_SUCCESS:
     case DATA_FETCH_FAIL:
+      console.log('DATA_FETCHED----', action.payload[action.data])
       return {
         ...state,
         pending: false,
-        res: action.payload[action.data]
+        fones: action.payload[action.data]
       }
     default:
       return state

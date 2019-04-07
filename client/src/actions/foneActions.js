@@ -17,14 +17,14 @@ export const sellFone = (fone) => (dispatch) => {
     })
 }
 
-export const listFone = () => (dispatch) => {
-  fetchingFoneList()
+export const listFones = () => (dispatch) => {
+  dispatch(fetchingFoneList())
   axios.get('/api/fones')
     .then((response) => {
-      fetchedFoneList(response)
+      dispatch(fetchedFoneList(response))
     })
     .catch((err) => {
-      fetchingFailed(err)
+      dispatch(fetchingFailed(err))
     })
 }
 
@@ -37,7 +37,7 @@ const _fetching = (item, action, data) => {
     type: action,
     data: item,
     payload: {
-      item: data
+      [item]: data
     }
   }
 }
@@ -47,7 +47,7 @@ export const sellingFone = (fone) => {
 }
 
 export const soldFone = (res) => {
-  return _selling(DATA_FETCH_SUCCESS, { res: res })
+  return _selling(DATA_FETCH_SUCCESS, res.data)
 }
 
 export const sellingFailed = (err) => {
@@ -55,7 +55,7 @@ export const sellingFailed = (err) => {
 }
 
 export const fetchingFoneList = () => {
-  _fetching('fones', DATA_FETCH_PENDING)
+  return _fetching('fones', DATA_FETCH_PENDING)
   //   type: DATA_FETCH_PENDING,
   //   payload: {
   //     action: 'listFone'
@@ -64,7 +64,7 @@ export const fetchingFoneList = () => {
 }
 
 export const fetchedFoneList = (res) => {
-  _fetching('fones', DATA_FETCH_SUCCESS, { res: res })
+  return _fetching('fones', DATA_FETCH_SUCCESS, res.data)
   // return {
   //   type: DATA_FETCH_SUCCESS,
   //   payload: {
@@ -75,7 +75,7 @@ export const fetchedFoneList = (res) => {
 }
 
 export const fetchingFailed = (err) => {
-  _fetching('fones', DATA_FETCH_FAIL, { err: err })
+  return _fetching('fones', DATA_FETCH_FAIL, { err: err })
   // return {
   //   type: DATA_FETCH_FAIL,
   //   payload: {
