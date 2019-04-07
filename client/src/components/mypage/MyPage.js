@@ -3,22 +3,12 @@ import { connect } from 'react-redux'
 import numeral from 'numeral'
 
 import MyFoneList from './MyFoneList'
-import { listFones, listSellFones } from '../../actions/foneActions'
+import { listFones } from '../../actions/foneActions'
 
-const MyPage = ({ myfones, fones, listFones, listSellFones }) => {
+const MyPage = ({ myfones, listFones }) => {
   useEffect(() => {
-    if (!fones) {
-      console.log('MyPage ---- listSellFones ', fones)
-      listSellFones()
-    }
+    listFones()
   }, [])
-
-  useEffect(() => {
-    console.log('MyPage --- listFones ---')
-    if (fones) {
-      listFones()
-    }
-  }, [fones])
 
   const onAcceptFone = (id) => {
     console.log('onAcceptFone----', id)
@@ -48,8 +38,7 @@ const MyPage = ({ myfones, fones, listFones, listSellFones }) => {
 
 export default connect(
   (state) => ({
-    myfones: state.fone.fones,
-    fones: state.fone.sellFones
+    myfones: state.fone.fones
   }),
-  { listFones, listSellFones }
+  { listFones }
 )(MyPage)
