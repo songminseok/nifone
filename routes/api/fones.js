@@ -68,8 +68,17 @@ router.post('/', async (req, res) => {
 // Get list of fones
 router.get('/', async (req, res) => {
   try {
-    const fones = await Fone.find()
-    console.log('fones-----', fones)
+    const options = req.user.role === 'user'
+      ? { user: req.user.id }
+      : {}
+    console.log('--- get fones ---', options)
+    const fones = await Fone
+      .find(options)
+      .populate({
+        path: 'user',
+        match: { _id: req.user.id }
+      })
+    console.log('--- get fones ---', fones)
     return res.json(fones)
   } catch (error) {
     return res.status(404).json(error)
