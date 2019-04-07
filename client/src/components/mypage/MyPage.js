@@ -26,10 +26,11 @@ const MyPage = ({ myfones, listFones }) => {
 
   return (
     <div className='container'>
-      <h5>My Page</h5>
+      <h5>마이 페이지</h5>
+      <div className='divider' />
       <div className='row'>
-        <h6 sytle={{ display: 'inline-block' }}>NiPoint</h6>{' '}
-        <span>{ numeral(1000).format('0,0') }</span>
+        <h5 sytle={{ display: 'inline-block' }} className='col s4 offset-s2 right-align'>NiPoint:{' '}</h5>{' '}
+        <h5 className='col s5 left-align'>{ numeral(1000).format('0,0') }</h5>
       </div>
       {foneList}
     </div>
