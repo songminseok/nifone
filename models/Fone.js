@@ -14,6 +14,8 @@ const FoneSchema = new Schema({
     type: String,
     default: 'nifone'
   },
+  foneId: { type: Number, default: 0 },
+  image: { type: String, default: '' },
   status: {
     type: String,
     enum: Object.values(Status),

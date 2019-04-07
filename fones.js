@@ -1,26 +1,21 @@
-import galaxys8 from './assets/galaxy-s-8.jpg'
-import galaxynote8 from './assets/galaxy-note-8.jpg'
-import iphone8 from './assets/iphone-8.jpg'
-import iphonex from './assets/iphone-x.jpg'
-
-export const fones = [
+module.exports = [
   {
-    image: galaxys8,
+    image: '/images/galaxy-s-8.jpg',
     name: '갤럭시 S8',
     price: 300000
   },
   {
-    image: galaxynote8,
+    image: '/images/galaxy-note-8.jpg',
     name: '갤럭시 노트 8',
     price: 400000
   },
   {
-    image: iphone8,
+    image: '/images/iphone-8.jpg',
     name: '아이폰 8',
     price: 500000
   },
   {
-    image: iphonex,
+    image: '/images/iphone-x.jpg',
     name: '아이폰 X',
     price: 800000
   }

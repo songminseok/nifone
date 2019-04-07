@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import numeral from 'numeral'
 
-const MyFoneItem = ({ fones, auth, item, onAccept, onReject }) => {
-  const name = item.name
+const MyFoneItem = ({ auth, item, onAccept, onReject }) => {
+  const { name, image } = item
+  // const name = item.name
   const price = 300000
-  const image = '/images/iphone-8.jpg'
+  // const image = '/images/iphone-8.jpg'
 
-  console.log('MyFoneItem----', fones)
+  console.log('MyFoneItem----', item)
 
   return (
     <>
@@ -24,14 +25,14 @@ const MyFoneItem = ({ fones, auth, item, onAccept, onReject }) => {
               href='#!'
               onClick={onAccept}>
               구매 승인{' '}
-              <i style={{ verticalAlign: 'middle' }} className='large material-icons'>local_atm</i>
+              <i style={{ verticalAlign: 'middle' }} className='large material-icons'>send</i>
             </a>
             <a
               className='col s5 offset-s1 waves-effect waves-light btn'
               href='#!'
               onClick={onReject}>
-              구매 거부{' '}
-              <i style={{ verticalAlign: 'middle' }} className='large material-icons'>local_atm</i>
+              {auth.user.role === 'user' ? '판매 거부 ' : '구매 거부 '}
+              <i style={{ verticalAlign: 'middle' }} className='large material-icons'>reply</i>
             </a>
           </div>
         </div>
@@ -43,7 +44,6 @@ const MyFoneItem = ({ fones, auth, item, onAccept, onReject }) => {
 
 export default connect(
   (state) => ({
-    fones: state.fone.sellFones,
     auth: state.auth
   })
 )(MyFoneItem)

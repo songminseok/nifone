@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const keys = require('../../config/keys')
 
 const Fone = require('../../models/Fone')
+const __fones = require('../../fones')
 
 // Check to make sure header is not undefined, if so, return Forbidden (403)
 const checkToken = (req, res, next) => {
@@ -50,6 +51,7 @@ router.use(isAuthenticated)
 router.post('/', async (req, res) => {
   const newFone = new Fone({
     name: req.body.name,
+    foneId: req.body.foneId,
     money: {
       deposit: 10000
     },
@@ -71,11 +73,11 @@ router.get('/', async (req, res) => {
     const options = req.user.role === 'user'
       ? { user: req.user.id }
       : {}
-    console.log('--- get fones ---', options)
     const fones = await Fone
       .find(options)
       .populate('user')
-    console.log('--- get fones ---', fones)
+    fones.forEach((fone) => { fone.image = __fones[fone.foneId | 0].image })
+    console.log('get fones---', fones)
     return res.json(fones)
   } catch (error) {
     return res.status(404).json(error)
