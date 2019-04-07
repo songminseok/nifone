@@ -27,11 +27,12 @@ const UserSchema = new Schema({
     type: String,
     default: 'address'
   },
+  nifones: [{ type: Schema.Types.ObjectId, ref: 'Fone' }],
   date: {
     type: Date,
     default: Date.now
   }
 })
 
-const User = mongoose.model('user', UserSchema)
+const User = mongoose.model('User', UserSchema)
 module.exports = User

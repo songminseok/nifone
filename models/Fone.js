@@ -29,15 +29,12 @@ const FoneSchema = new Schema({
       default: 0
     }
   },
-  userKey: {
-    type: String,
-    default: 'userKey'
-  },
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
   date: {
     type: Date,
     default: Date.now
   }
 })
 
-const Fone = mongoose.model('fone', FoneSchema)
+const Fone = mongoose.model('Fone', FoneSchema)
 module.exports = Fone

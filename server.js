@@ -5,6 +5,7 @@ const passport = require('passport')
 const axios = require('axios')
 
 const users = require('./routes/api/users')
+const fones = require('./routes/api/fones')
 const luniverseConfig = require('./config/luniverse')
 
 // Global axios defaults
@@ -37,6 +38,7 @@ require('./config/passport')(passport)
 
 // Routes
 app.use('/api/users', users)
+app.use('/api/fones', fones)
 
 const port = process.env.PORT || 4000
 

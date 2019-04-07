@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import M from 'materialize-css'
 import numeral from 'numeral'
 
 import { fones } from '../../fones'
 import SellFoneList from './SellFoneList'
+import { sellFone } from '../../actions/foneActions'
 
-const Sell = () => {
+const Sell = ({ sellFone }) => {
   const [niFone, selectNiFone] = useState(0)
   const refModal = useRef(null)
 
@@ -21,6 +23,7 @@ const Sell = () => {
 
   const onConfirmSell = () => {
     console.log('NiFone is soon in inspection', fones[niFone])
+    sellFone({ ...fones[niFone], foneId: niFone })
   }
 
   return (
@@ -58,4 +61,7 @@ const Sell = () => {
   )
 }
 
-export default Sell
+export default connect(
+  null,
+  { sellFone }
+)(Sell)
