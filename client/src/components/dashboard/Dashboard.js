@@ -6,14 +6,13 @@ import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Sell from '../sell/Sell'
-import Inspect from '../inspect/Inspect'
 import MyPage from '../mypage/MyPage'
 
 const Dashboard = ({ auth, match }) => {
   const Main =
     (auth.isAuthenticated && auth.user.role === 'user')
       ? Sell
-      : Inspect
+      : MyPage
 
   return (
     <div className='container valign-wrapper'>
