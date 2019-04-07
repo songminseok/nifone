@@ -74,10 +74,7 @@ router.get('/', async (req, res) => {
     console.log('--- get fones ---', options)
     const fones = await Fone
       .find(options)
-      .populate({
-        path: 'user',
-        match: { _id: req.user.id }
-      })
+      .populate('user')
     console.log('--- get fones ---', fones)
     return res.json(fones)
   } catch (error) {

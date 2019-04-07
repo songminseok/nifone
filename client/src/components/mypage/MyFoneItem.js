@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import numeral from 'numeral'
-import { fones } from '../../fones'
 
-const MyFoneItem = ({ item, onAccept, onReject }) => {
+const MyFoneItem = ({ fones, auth, item, onAccept, onReject }) => {
   const name = item.name
   const price = 300000
-  const image = fones[0].image
+  const image = '/images/iphone-8.jpg'
+
+  console.log('MyFoneItem----', fones)
 
   return (
     <>
@@ -16,11 +18,18 @@ const MyFoneItem = ({ item, onAccept, onReject }) => {
         </div>
         <div className='col s8'>
           <div style={{ marginBottom: '0px' }} className='row'>
-            <a className='col s5 waves-effect waves-light btn' href='#!' onClick={onAccept}>
+            <a
+              style={auth.user.role === 'user' ? { visibility: 'hidden' } : {}}
+              className='col s5 waves-effect waves-light btn'
+              href='#!'
+              onClick={onAccept}>
               구매 승인{' '}
               <i style={{ verticalAlign: 'middle' }} className='large material-icons'>local_atm</i>
             </a>
-            <a className='col s5 offset-s1 waves-effect waves-light btn' href='#!' onClick={onReject}>
+            <a
+              className='col s5 offset-s1 waves-effect waves-light btn'
+              href='#!'
+              onClick={onReject}>
               구매 거부{' '}
               <i style={{ verticalAlign: 'middle' }} className='large material-icons'>local_atm</i>
             </a>
@@ -32,4 +41,9 @@ const MyFoneItem = ({ item, onAccept, onReject }) => {
   )
 }
 
-export default MyFoneItem
+export default connect(
+  (state) => ({
+    fones: state.fone.sellFones,
+    auth: state.auth
+  })
+)(MyFoneItem)

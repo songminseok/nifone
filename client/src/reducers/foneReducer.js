@@ -5,7 +5,6 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  fones: [],
   pending: false
 }
 
@@ -19,7 +18,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        fones: action.payload[action.data]
+        [action.data]: action.payload[action.data]
       }
     default:
       return state

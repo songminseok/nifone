@@ -3,12 +3,22 @@ import { connect } from 'react-redux'
 import numeral from 'numeral'
 
 import MyFoneList from './MyFoneList'
-import { listFones } from '../../actions/foneActions'
+import { listFones, listSellFones } from '../../actions/foneActions'
 
-const MyPage = ({ fones, listFones }) => {
+const MyPage = ({ myfones, fones, listFones, listSellFones }) => {
   useEffect(() => {
-    listFones()
+    if (!fones) {
+      console.log('MyPage ---- listSellFones ', fones)
+      listSellFones()
+    }
   }, [])
+
+  useEffect(() => {
+    console.log('MyPage --- listFones ---')
+    if (fones) {
+      listFones()
+    }
+  }, [fones])
 
   const onAcceptFone = (id) => {
     console.log('onAcceptFone----', id)
@@ -19,10 +29,10 @@ const MyPage = ({ fones, listFones }) => {
   }
 
   let foneList = null
-  if (fones && fones.length > 0) {
-    foneList = <MyFoneList items={fones} onAccept={onAcceptFone} onReject={onRejectFone} />
+  if (myfones && myfones.length > 0) {
+    foneList = <MyFoneList items={myfones} onAccept={onAcceptFone} onReject={onRejectFone} />
   }
-  console.log('MyPage---', fones)
+  console.log('MyPage---', myfones)
 
   return (
     <div className='container'>
@@ -38,7 +48,8 @@ const MyPage = ({ fones, listFones }) => {
 
 export default connect(
   (state) => ({
-    fones: state.fone.fones
+    myfones: state.fone.fones,
+    fones: state.fone.sellFones
   }),
-  { listFones }
+  { listFones, listSellFones }
 )(MyPage)

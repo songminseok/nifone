@@ -28,6 +28,23 @@ export const listFones = () => (dispatch) => {
     })
 }
 
+export const listSellFones = () => (dispatch, getState) => {
+  const prevState = getState()
+  console.log('[listSellFones]---', prevState.sellFones)
+  if (prevState.fone.sellFones instanceof Array) {
+    dispatch(fetchedSellFoneList(prevState.fone.sellFones))
+    return
+  }
+  dispatch(fetchingSellFoneList())
+  axios.get('/api/sellFones')
+    .then((response) => {
+      dispatch(fetchedSellFoneList(response))
+    })
+    .catch((err) => {
+      dispatch(fetchingSellFoneFailed(err))
+    })
+}
+
 const _selling = (action, data) => {
   return _fetching('sell', action, data)
 }
@@ -56,31 +73,24 @@ export const sellingFailed = (err) => {
 
 export const fetchingFoneList = () => {
   return _fetching('fones', DATA_FETCH_PENDING)
-  //   type: DATA_FETCH_PENDING,
-  //   payload: {
-  //     action: 'listFone'
-  //   }
-  // }
 }
 
 export const fetchedFoneList = (res) => {
   return _fetching('fones', DATA_FETCH_SUCCESS, res.data)
-  // return {
-  //   type: DATA_FETCH_SUCCESS,
-  //   payload: {
-  //     action: 'listFone',
-  //     response: res
-  //   }
-  // }
 }
 
 export const fetchingFailed = (err) => {
   return _fetching('fones', DATA_FETCH_FAIL, { err: err })
-  // return {
-  //   type: DATA_FETCH_FAIL,
-  //   payload: {
-  //     action: 'listFone',
-  //     error: err
-  //   }
-  // }
+}
+
+export const fetchingSellFoneList = () => {
+  return _fetching('sellFones', DATA_FETCH_PENDING)
+}
+
+export const fetchedSellFoneList = (res) => {
+  return _fetching('sellFones', DATA_FETCH_SUCCESS, res.data)
+}
+
+export const fetchingSellFoneFailed = (err) => {
+  return _fetching('sellFones', DATA_FETCH_FAIL, { err: err })
 }
