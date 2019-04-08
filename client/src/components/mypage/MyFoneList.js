@@ -9,8 +9,8 @@ const MyFoneList = ({ items, onAccept, onReject }) => {
         <MyFoneItem
           key={item._id}
           item={item}
-          onAccept={() => onAccept(item.id)}
-          onReject={() => onReject(item.id)} />
+          onAccept={onAccept}
+          onReject={onReject} />
       ))}
     </div>
   )

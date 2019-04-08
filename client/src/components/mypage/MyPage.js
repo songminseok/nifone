@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import numeral from 'numeral'
 
 import MyFoneList from './MyFoneList'
-import { listFones } from '../../actions/foneActions'
+import { listFones, acceptFone, rejectFone } from '../../actions/foneActions'
 import { getNiPoint } from '../../actions/nipointActions'
 
-const MyPage = ({ nipoint, myfones, listFones, getNiPoint }) => {
+const MyPage = ({ nipoint, myfones, status, listFones, acceptFone, rejectFone, getNiPoint }) => {
   useEffect(() => {
     listFones()
     getNiPoint()
@@ -14,10 +14,12 @@ const MyPage = ({ nipoint, myfones, listFones, getNiPoint }) => {
 
   const onAcceptFone = (id) => {
     console.log('onAcceptFone----', id)
+    acceptFone(id)
   }
 
   const onRejectFone = (id) => {
     console.log('onRejectFone----', id)
+    rejectFone(id)
   }
 
   let foneList = null
@@ -43,7 +45,8 @@ const MyPage = ({ nipoint, myfones, listFones, getNiPoint }) => {
 export default connect(
   (state) => ({
     myfones: state.fone.fones,
-    nipoint: state.fone.nipoint
+    nipoint: state.fone.nipoint,
+    status: state.fone.accept | state.fone.reject
   }),
-  { listFones, getNiPoint }
+  { listFones, getNiPoint, acceptFone, rejectFone }
 )(MyPage)

@@ -46,6 +46,36 @@ export const listSellFones = () => (dispatch, getState) => {
     })
 }
 
+export const acceptFone = (id) => (dispatch) => {
+  dispatch(acceptingFone())
+  axios.put(`/api/fones/${id}`, { params: { status: 'accepted' } })
+    .then((response) => {
+      dispatch(acceptedFone(response))
+    })
+    .catch((err) => {
+      dispatch(acceptingFailed(err))
+    })
+}
+
+export const rejectFone = (id) => (dispatch) => {
+  dispatch(rejectingFone())
+  axios.put(`/api/fones/${id}`, { params: { status: 'rejected' } })
+    .then((response) => {
+      dispatch(rejectedFone(response))
+    })
+    .catch((err) => {
+      dispatch(rejectingFailed(err))
+    })
+}
+
+const _accepting = (action, data) => {
+  return _fetching('accept', action, data)
+}
+
+const _rejecting = (action, data) => {
+  return _fetching('reject', action, data)
+}
+
 const _selling = (action, data) => {
   return _fetching('sell', action, data)
 }
@@ -84,4 +114,28 @@ export const fetchedSellFoneList = (res) => {
 
 export const fetchingSellFoneFailed = (err) => {
   return _fetching('sellFones', DATA_FETCH_FAIL, { err: err })
+}
+
+export const acceptingFone = () => {
+  return _accepting(DATA_FETCH_PENDING)
+}
+
+export const acceptedFone = (res) => {
+  return _accepting(DATA_FETCH_SUCCESS, res.data)
+}
+
+export const acceptingFailed = (err) => {
+  return _accepting(DATA_FETCH_FAIL, { err: err })
+}
+
+export const rejectingFone = () => {
+  return _rejecting(DATA_FETCH_PENDING)
+}
+
+export const rejectedFone = (res) => {
+  return _rejecting(DATA_FETCH_SUCCESS, res.data)
+}
+
+export const rejectingFailed = (err) => {
+  return _rejecting(DATA_FETCH_FAIL, { err: err })
 }

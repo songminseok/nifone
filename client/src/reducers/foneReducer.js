@@ -5,7 +5,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  pending: false
+  pending: true
 }
 
 export default (state = initialState, action) => {

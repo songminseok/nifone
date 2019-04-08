@@ -3,8 +3,8 @@ curl -X POST 'https://beta-api.luniverse.io/tx/v1.0/transactions/PurchaseNiPhone
     --header 'Content-Type: application/json' \
     --data '{
            "inputs": {
-               "receiverAddress": "0xa85937d6a4dde87191ad2c0355827f3a86226e40",
-               "valueAmount": "1000000000000000000"
+               "receiverAddress": "0xac2b2d55d3c6e05b922aee0661b4b2ae3c3cca7d",
+               "valueAmount": "10000000000000000000"
            }
        }'
 
@@ -38,9 +38,9 @@ curl -X POST 'https://beta-api.luniverse.io/tx/v1.0/transactions/Redeem' \
     --header 'Authorization: Bearer 64USayvjJDqrd1u5Lu3VTZftjg9JQskcK3Qpb95dioLVn9k1V4g5YeSjKenLscWF' \
     --header 'Content-Type: application/json' \
     --data '{
-           "from": "0xa85937d6a4dde87191ad2c0355827f3a86226e40",
+           "from": "0xac2b2d55d3c6e05b922aee0661b4b2ae3c3cca7d",
            "inputs": {
-               "valueAmount": "1000000000000000000"
+               "valueAmount": "10000000000000000000"
            }
        }'
 

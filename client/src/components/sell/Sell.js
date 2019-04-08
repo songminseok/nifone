@@ -5,14 +5,15 @@ import numeral from 'numeral'
 
 import SellFoneList from './SellFoneList'
 import { sellFone, listSellFones } from '../../actions/foneActions'
-import Loading from '../loading/Loading';
+import Loading from '../loading/Loading'
 
-const Sell = ({ fones, sellFone, listSellFones }) => {
+const Sell = ({ pending, fones, sellFone, listSellFones }) => {
   const [niFone, selectNiFone] = useState(0)
   const refModal = useRef(null)
 
   useEffect(() => {
     M.Modal.init(refModal.current)
+    console.log('refModal current inited')
     if (!fones) {
       listSellFones()
     }
@@ -21,6 +22,7 @@ const Sell = ({ fones, sellFone, listSellFones }) => {
   const onSelectFone = (i) => {
     console.log('onSelectFone---', i)
     selectNiFone(i)
+    console.log('onSelectFone---', refModal.current)
     M.Modal.getInstance(refModal.current).open()
   }
 
@@ -31,47 +33,45 @@ const Sell = ({ fones, sellFone, listSellFones }) => {
 
   console.log('[Sell]----', fones)
 
-  if (fones && fones.length > 0) {
-    return (
-      <div className='container'>
-        <h5>니폰 팔아봐?</h5>
-        <SellFoneList items={fones} onSelect={onSelectFone} />
+  return (
+    <div className='container'>
+      <h5>니폰 팔아봐?</h5>
 
-        <div id='confirm-modal' ref={refModal} className='modal bottom-sheet'>
-          <div className='modal-content'>
-            <div className='row valign-wrapper'>
-              <img
-                className='col s2 circle responsive-image'
-                src={fones[niFone].image}
-                alt={fones[niFone].name} />
-              <div className='col s10 row'>
-                <h5 className='col s12'>
-                  진짜루 니 {fones[niFone].name} 폰 팔거야?
-                </h5>
-                <div className='col s10 offset-s1 divider' />
-                <h6 className='col s12'>
-                  {numeral(fones[niFone].price).format('0,0') + ' 원'} 줄께
-                </h6>
-              </div>
+      { pending ? <Loading /> : <SellFoneList items={fones} onSelect={onSelectFone} /> }
+
+      <div id='confirm-modal' ref={refModal} className='modal bottom-sheet'>
+        <div className='modal-content'>
+          <div className='row valign-wrapper'>
+            <img
+              className='col s2 circle responsive-image'
+              src={fones ? fones[niFone].image : null}
+              alt={fones ? fones[niFone].name : 'no image'} />
+            <div className='col s10 row'>
+              <h5 className='col s12'>
+                진짜루 니 {fones ? fones[niFone].name : 'no phone'} 폰 팔거야?
+              </h5>
+              <div className='col s10 offset-s1 divider' />
+              <h6 className='col s12'>
+                {numeral(fones ? fones[niFone].price : 0).format('0,0') + ' 원'} 줄께
+              </h6>
             </div>
           </div>
-          <div className='modal-footer'>
-            <button
-              onClick={onConfirmSell}
-              className='modal-close waves-effect waves-green btn-flat'>
-              응 팔께!!!
-            </button>
-          </div>
+        </div>
+        <div className='modal-footer'>
+          <button
+            onClick={onConfirmSell}
+            className='modal-close waves-effect waves-green btn-flat'>
+            응 팔께!!!
+          </button>
         </div>
       </div>
-    )
-  } else {
-    return <Loading />
-  }
+    </div>
+  )
 }
 
 export default connect(
   (state) => ({
+    pending: state.fone.pending,
     fones: state.fone.sellFones
   }),
   { sellFone, listSellFones }
