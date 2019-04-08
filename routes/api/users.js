@@ -8,6 +8,7 @@ const axios = require('axios')
 
 const validateRegisterInput = require('../../validation/register')
 const validateLoginInput = require('../../validation/login')
+const checkToken = require('../middlewares/checkToken')
 
 const User = require('../../models/User')
 
@@ -149,6 +150,21 @@ router.post('/login', (req, res) => {
       )
     }
   )
+})
+
+//curl -X GET 'https://beta-api.luniverse.io/tx/v1.0/wallets/0xa85937d6a4dde87191ad2c0355827f3a86226e40/NP/NFP/balance' \
+router.use('/nipoint', checkToken)
+
+router.get('/nipoint', async (req, res) => {
+  const uri = `/wallets/${req.user.wallet}/NP/NFP/balance`
+  try {
+    const response = await axios.get(uri)
+    const point = response.data.data.balance
+    res.json(point)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ server: 'Internal Server Error: Balance' })
+  }
 })
 
 module.exports = router

@@ -16,7 +16,7 @@ const Dashboard = ({ auth, match }) => {
 
   return (
     <div className='container valign-wrapper'>
-      <div className='row'>
+      <div style={{ width: '100%' }} className='row'>
         <div className='col s12 center-align'>
           <Switch>
             <Route path={`${match.path}/mypage`} component={MyPage} />

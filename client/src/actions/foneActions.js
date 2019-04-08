@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _fetching from './common'
 
 import {
   DATA_FETCH_PENDING,
@@ -47,16 +48,6 @@ export const listSellFones = () => (dispatch, getState) => {
 
 const _selling = (action, data) => {
   return _fetching('sell', action, data)
-}
-
-const _fetching = (item, action, data) => {
-  return {
-    type: action,
-    data: item,
-    payload: {
-      [item]: data
-    }
-  }
 }
 
 export const sellingFone = (fone) => {

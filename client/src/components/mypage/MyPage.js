@@ -4,10 +4,12 @@ import numeral from 'numeral'
 
 import MyFoneList from './MyFoneList'
 import { listFones } from '../../actions/foneActions'
+import { getNiPoint } from '../../actions/nipointActions'
 
-const MyPage = ({ myfones, listFones }) => {
+const MyPage = ({ nipoint, myfones, listFones, getNiPoint }) => {
   useEffect(() => {
     listFones()
+    getNiPoint()
   }, [])
 
   const onAcceptFone = (id) => {
@@ -22,15 +24,16 @@ const MyPage = ({ myfones, listFones }) => {
   if (myfones && myfones.length > 0) {
     foneList = <MyFoneList items={myfones} onAccept={onAcceptFone} onReject={onRejectFone} />
   }
-  console.log('MyPage---', myfones)
 
   return (
     <div className='container'>
       <h5>마이 페이지</h5>
       <div className='divider' />
       <div className='row'>
-        <h5 sytle={{ display: 'inline-block' }} className='col s4 offset-s2 right-align'>NiPoint:{' '}</h5>{' '}
-        <h5 className='col s5 left-align'>{ numeral(1000).format('0,0') }</h5>
+        <h5 className='col s4 offset-s2'>NiPoint:{' '}</h5>
+        <h5 className='col s5 left-align'>
+          { numeral(nipoint).divide(Math.pow(10, 18)).format('0,0') }
+        </h5>
       </div>
       {foneList}
     </div>
@@ -39,7 +42,8 @@ const MyPage = ({ myfones, listFones }) => {
 
 export default connect(
   (state) => ({
-    myfones: state.fone.fones
+    myfones: state.fone.fones,
+    nipoint: state.fone.nipoint
   }),
-  { listFones }
+  { listFones, getNiPoint }
 )(MyPage)

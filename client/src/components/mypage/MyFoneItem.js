@@ -8,8 +8,6 @@ const MyFoneItem = ({ auth, item, onAccept, onReject }) => {
   const price = 300000
   // const image = '/images/iphone-8.jpg'
 
-  console.log('MyFoneItem----', item)
-
   return (
     <>
       <div style={{ marginBottom: '5px' }} className='row'>
