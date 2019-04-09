@@ -11,7 +11,7 @@ Luniverse 를 이용한 중고폰 매입 DApp 데모
 7. 브라우저에서 http://localhost:3000 접속
 
 # 사용된 툴
-프론트엔드 - React
-백엔드 - Node, Express
-DB - mongo DB
-기타 유틸리티 - passport.js, materializecss, bcrypt, body-parser, mongoose, numeral, ...
+- 프론트엔드 - React
+- 백엔드 - Node, Express
+- DB - mongo DB
+- 기타 유틸리티 - passport.js, materializecss, bcrypt, body-parser, mongoose, numeral, ...
