@@ -65,16 +65,21 @@ router.put('/:id', async (req, res) => {
   const { id } = req.params
   console.log('update fone id', req.params.id, 'body params', req.body.params)
   try {
-    const fone = await Fone.findByIdAndUpdate(id, req.body.params)
-    const uri = 'transactions/PurchaseNiPhone'
+    const fone = await Fone
+      .findByIdAndUpdate(id, req.body.params)
+      .populate('user')
+    if (req.body.params.status !== 'accepted') {
+      return res.json(req.body.params)
+    }
+    const uri = '/transactions/PurchaseNiPhone'
     const data = {
       inputs: {
-        receiverAddress: req.user.wallet,
+        receiverAddress: fone.user.wallet,
         valueAmount: '' + (__fones[fone.foneId].price / 10000 * Math.pow(10, 18))
       }
     }
+    console.log('purchaseNiPhone---', data)
     const response = await axios.post(uri, data)
-    console.log('purchaseNiPhone---', response)
     console.log(response.data.data)
     return res.json(response.data.data)
   } catch (error) {
